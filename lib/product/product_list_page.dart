@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project_mid_test/cart/cart.dart';
 import 'package:project_mid_test/product/product_model.dart';
 import 'package:project_mid_test/product/product_provider.dart';
+import 'package:project_mid_test/product_detail/product_detail.dart';
 import 'package:provider/provider.dart';
 
 class ProductListPage extends StatefulWidget {
@@ -216,66 +218,84 @@ class _ProductListPageState extends State<ProductListPage> {
         scrollDirection: Axis.vertical,
         children: [
           ...listProduct.map((e) {
-            return Container(
-              margin: EdgeInsets.only(bottom: 20, right: 20, left: 20),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(4.0)),
-              child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Image.network(
-                      e.image ?? "",
-                      fit: BoxFit.cover,
-                      height: 200,
-                      width: 200,
-                    ),
-                    Text(
-                      e.title ?? "Title is null",
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '\$${e.price.toString()}' ?? '00.00',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.red,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          e.category ?? '',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w600),
-                        )
-                      ],
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.blue),
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProductDetail(),
+                  ),
+                );
+              },
+              child: Container(
+                margin: EdgeInsets.only(bottom: 20, right: 20, left: 20),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(4.0)),
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Image.network(
+                        e.image ?? "",
+                        fit: BoxFit.cover,
+                        height: 200,
+                        width: 200,
                       ),
-                      child: Text(
-                        "Add to cart",
+                      Text(
+                        e.title ?? "Title is null",
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '\$${e.price.toString()}' ?? '00.00',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.red,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            e.category ?? '',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w600),
+                          )
+                        ],
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CartStore(),
+                            ),
+                          );
+                        },
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blue),
+                        ),
+                        child: Text(
+                          "Add to cart",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
@@ -293,62 +313,81 @@ class _ProductListPageState extends State<ProductListPage> {
         crossAxisCount: 2,
         children: [
           ...listProduct.map((e) {
-            return Container(
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(4.0)),
-              child: Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                child: Column(
-                  children: [
-                    Image.network(
-                      e.image ?? "",
-                      fit: BoxFit.cover,
-                      height: 108,
-                      width: 108,
-                    ),
-                    Text(
-                      e.title ?? "Title is null",
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.w700),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '\$${e.price.toString()}' ?? '00.00',
-                          style: TextStyle(
-                              color: Colors.red, fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          e.category ?? '',
-                          style: TextStyle(
-                              color: Colors.blue, fontWeight: FontWeight.w600),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.blue),
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProductDetail(),
+                  ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(4.0)),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Column(
+                    children: [
+                      Image.network(
+                        e.image ?? "",
+                        fit: BoxFit.cover,
+                        height: 108,
+                        width: 108,
                       ),
-                      child: Text(
-                        "Add to cart",
+                      Text(
+                        e.title ?? "Title is null",
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
+                            color: Colors.black, fontWeight: FontWeight.w700),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '\$${e.price.toString()}' ?? '00.00',
+                            style: TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            e.category ?? '',
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w600),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CartStore(),
+                            ),
+                          );
+                        },
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blue),
+                        ),
+                        child: Text(
+                          "Add to cart",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
