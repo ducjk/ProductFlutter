@@ -18,18 +18,17 @@ class _ProductListPageState extends State<ProductListPage> {
   bool showGrid = true;
   List<ProductModel> listProduct = [];
   List<String> listCategories = [];
+  List<ProductModel> listCart = [];
 
   @override
   Widget build(BuildContext context) {
     var productProvider = Provider.of<ProductProvider>(context);
     productProvider.getList();
     productProvider.getCategories();
-
-    if (listProduct.isEmpty && listCategories.isEmpty)
-      setState(() {
-        listProduct = productProvider.list;
-        listCategories = productProvider.listCategories;
-      });
+    if (listProduct.isEmpty && listCategories.isEmpty) {
+      listProduct = productProvider.list;
+      listCategories = productProvider.listCategories;
+    }
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(4.0),
@@ -44,7 +43,7 @@ class _ProductListPageState extends State<ProductListPage> {
             SizedBox(
               height: 4,
             ),
-            buildListCategory(context),
+            buildListCategory(context, productProvider),
             SizedBox(
               height: 10,
             ),
@@ -53,7 +52,9 @@ class _ProductListPageState extends State<ProductListPage> {
               height: 10,
             ),
             buildIconButton(context),
-            showGrid ? buildGridView(context) : buildList(context),
+            showGrid
+                ? buildGridView(context, productProvider)
+                : buildList(context, productProvider),
           ],
         ),
       ),
@@ -82,7 +83,7 @@ class _ProductListPageState extends State<ProductListPage> {
     );
   }
 
-  buildListCategory(BuildContext context) {
+  buildListCategory(BuildContext context, ProductProvider productProvider) {
     return Container(
       height: 80,
       width: double.infinity,
@@ -92,9 +93,16 @@ class _ProductListPageState extends State<ProductListPage> {
           children: [
             ...listCategories.map((e) {
               return Padding(
-                padding: EdgeInsets.fromLTRB(0, 4, 20, 4),
+                padding: const EdgeInsets.fromLTRB(0, 4, 20, 4),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // print("duc");
+                    // productProvider.getListWithCategory(e);
+                    // setState(() {
+                    //   listProduct = productProvider.listProductWithCatgory;
+                    //   print("huynh");
+                    // });
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.blue),
                   ),
@@ -212,7 +220,8 @@ class _ProductListPageState extends State<ProductListPage> {
     );
   }
 
-  buildList(BuildContext context) {
+  buildList(BuildContext context, ProductProvider productProvider) {
+    print(listProduct);
     return Expanded(
       child: ListView(
         scrollDirection: Axis.vertical,
@@ -223,7 +232,9 @@ class _ProductListPageState extends State<ProductListPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProductDetail(),
+                    builder: ((context) => (ProductDetail(
+                          product: e,
+                        ))),
                   ),
                 );
               },
@@ -274,10 +285,12 @@ class _ProductListPageState extends State<ProductListPage> {
                       ),
                       TextButton(
                         onPressed: () {
+                          productProvider.getListCart(e);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CartStore(),
+                              builder: ((context) => (CartStore(
+                                  listCart: productProvider.listCart))),
                             ),
                           );
                         },
@@ -305,7 +318,7 @@ class _ProductListPageState extends State<ProductListPage> {
     );
   }
 
-  buildGridView(BuildContext context) {
+  buildGridView(BuildContext context, ProductProvider productProvider) {
     return Expanded(
       child: GridView.count(
         crossAxisSpacing: 10,
@@ -318,7 +331,9 @@ class _ProductListPageState extends State<ProductListPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProductDetail(),
+                    builder: ((context) => (ProductDetail(
+                          product: e,
+                        ))),
                   ),
                 );
               },
@@ -366,10 +381,12 @@ class _ProductListPageState extends State<ProductListPage> {
                       ),
                       TextButton(
                         onPressed: () {
+                          productProvider.getListCart(e);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CartStore(),
+                              builder: ((context) => (CartStore(
+                                  listCart: productProvider.listCart))),
                             ),
                           );
                         },

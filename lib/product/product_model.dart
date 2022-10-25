@@ -5,11 +5,13 @@ class ProductModel {
   String? description;
   String? category;
   String? image;
+  num? quantity = 1;
   ProductModel(
       {this.id,
       this.title,
       this.price,
       this.description,
       this.category,
-      this.image});
+      this.image,
+      this.quantity});
 }
