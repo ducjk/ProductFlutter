@@ -97,12 +97,10 @@ class _ProductListPageState extends State<ProductListPage> {
                 padding: const EdgeInsets.fromLTRB(0, 4, 20, 4),
                 child: TextButton(
                   onPressed: () {
-                    // print("duc");
-                    // productProvider.getListWithCategory(e);
-                    // setState(() {
-                    //   listProduct = productProvider.listProductWithCatgory;
-                    //   print("huynh");
-                    // });
+                    productProvider.getListWithCategory(e);
+                    setState(() {
+                      listProduct = productProvider.listProductWithCatgory;
+                    });
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.blue),
