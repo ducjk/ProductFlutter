@@ -25,7 +25,7 @@ class _CartStoreState extends State<CartStore> {
       body: Column(
         children: [
           SizedBox(
-            height: 540,
+            height: 620,
             child: buildProductView(context, widget.listCart),
           ),
           Padding(

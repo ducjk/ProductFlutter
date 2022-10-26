@@ -22,6 +22,7 @@ class _ProductListPageState extends State<ProductListPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("re-render...");
     var productProvider = Provider.of<ProductProvider>(context);
     productProvider.getList();
     productProvider.getCategories();
@@ -47,7 +48,7 @@ class _ProductListPageState extends State<ProductListPage> {
             SizedBox(
               height: 10,
             ),
-            buildSearch(context, productProvider.list),
+            buildSearch(context, productProvider),
             SizedBox(
               height: 10,
             ),
@@ -123,7 +124,7 @@ class _ProductListPageState extends State<ProductListPage> {
     );
   }
 
-  buildSearch(BuildContext context, List<ProductModel> list) {
+  buildSearch(BuildContext context, ProductProvider productProvider) {
     return Row(
       children: [
         SizedBox(
@@ -195,7 +196,15 @@ class _ProductListPageState extends State<ProductListPage> {
         ),
         TextButton(
           onPressed: () {
-            print(_searchKey.text);
+            productProvider.list.retainWhere((element) => (element.category!
+                    .toLowerCase()
+                    .contains(_searchKey.text.toLowerCase()) ||
+                element.title!
+                    .toLowerCase()
+                    .contains(_searchKey.text.toLowerCase())));
+            setState(() {
+              listProduct = productProvider.list;
+            });
           },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Colors.blue),
@@ -213,7 +222,15 @@ class _ProductListPageState extends State<ProductListPage> {
           width: 4,
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: ((context) =>
+                    (CartStore(listCart: productProvider.listCart))),
+              ),
+            );
+          },
           icon: Icon(Icons.shopping_cart),
         ),
       ],

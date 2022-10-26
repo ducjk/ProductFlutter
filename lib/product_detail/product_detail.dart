@@ -27,19 +27,19 @@ class ProductDetail extends StatelessWidget {
               Image.network(
                 product.image ?? "",
                 fit: BoxFit.cover,
-                height: 200,
-                width: 200,
+                height: 280,
+                width: 280,
               ),
               Text(
                 product.title ?? "Title is null",
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 22,
                     color: Colors.black,
                     fontWeight: FontWeight.w700),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,18 +47,21 @@ class ProductDetail extends StatelessWidget {
                   Text(
                     '\$${product.price.toString()}' ?? '00.00',
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 24,
                         color: Colors.red,
                         fontWeight: FontWeight.w600),
                   ),
                   Text(
                     product.category ?? '',
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 24,
                         color: Colors.blue,
                         fontWeight: FontWeight.w600),
                   )
                 ],
+              ),
+              SizedBox(
+                height: 80,
               ),
               TextButton(
                 onPressed: () {
@@ -77,7 +80,7 @@ class ProductDetail extends StatelessWidget {
                 child: Text(
                   "Add to cart",
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 28,
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
                   ),
