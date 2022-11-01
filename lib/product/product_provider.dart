@@ -66,14 +66,18 @@ class ProductProvider extends ChangeNotifier {
   void getListCart(ProductModel product) {
     if (listCart.isEmpty) {
       listCart.add(product);
-    } else if (listCart.every((element) => element.id == product.id)) {
+    } else {
+      int kt = 0;
       for (var element in listCart) {
         if (element.id == product.id) {
+          kt = 1;
           element.quantity = (element.quantity! + 1);
+          break;
         }
       }
-    } else {
-      listCart.add(product);
+      if (kt == 0) {
+        listCart.add(product);
+      }
     }
   }
 

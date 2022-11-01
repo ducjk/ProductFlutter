@@ -116,10 +116,10 @@ class _CartStoreState extends State<CartStore> {
                       IconButton(
                           onPressed: () {
                             setState(() {
-                              e.quantity = (e.quantity! - 1);
-                              if (e.quantity! < 1) {
+                              if (e.quantity! <= 1) {
                                 listCart.remove(e);
-                              }
+                              } else
+                                e.quantity = (e.quantity! - 1);
                             });
                           },
                           icon: Icon(Icons.remove))

@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:flutter/material.dart';
 import 'package:project_mid_test/cart/cart.dart';
 import 'package:project_mid_test/product/product_model.dart';
@@ -19,17 +21,21 @@ class _ProductListPageState extends State<ProductListPage> {
   List<ProductModel> listProduct = [];
   List<String> listCategories = [];
   List<ProductModel> listCart = [];
+  int numberCar = 0;
 
   @override
   Widget build(BuildContext context) {
-    print("re-render...");
     var productProvider = Provider.of<ProductProvider>(context);
-    productProvider.getList();
-    productProvider.getCategories();
-    if (listProduct.isEmpty && listCategories.isEmpty) {
-      listProduct = productProvider.list;
-      listCategories = productProvider.listCategories;
+    if (productProvider.list.isEmpty &&
+        productProvider.listCategories.isEmpty) {
+      productProvider.getList();
+      productProvider.getCategories();
     }
+    if (listProduct.isEmpty && listCategories.isEmpty) {
+      listProduct = [...productProvider.list];
+      listCategories = [...productProvider.listCategories];
+    }
+    numberCar = productProvider.listCart.length;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(4.0),
@@ -97,9 +103,10 @@ class _ProductListPageState extends State<ProductListPage> {
                 padding: const EdgeInsets.fromLTRB(0, 4, 20, 4),
                 child: TextButton(
                   onPressed: () {
-                    productProvider.getListWithCategory(e);
                     setState(() {
-                      listProduct = productProvider.listProductWithCatgory;
+                      listProduct = [...productProvider.list];
+                      listProduct
+                          .retainWhere((element) => element.category == e);
                     });
                   },
                   style: ButtonStyle(
@@ -127,7 +134,7 @@ class _ProductListPageState extends State<ProductListPage> {
       children: [
         SizedBox(
             height: 36,
-            width: 152,
+            width: 142,
             child: Container(
               child: TextField(
                 maxLines: 1,
@@ -152,9 +159,12 @@ class _ProductListPageState extends State<ProductListPage> {
         ),
         TextButton(
           onPressed: () {
-            listProduct.sort(
-              (a, b) => a.price!.toDouble().compareTo(b.price!.toDouble()),
-            );
+            listProduct = [...productProvider.list];
+            setState(() {
+              listProduct.sort(
+                (a, b) => a.price!.toDouble().compareTo(b.price!.toDouble()),
+              );
+            });
           },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Colors.blue),
@@ -173,9 +183,12 @@ class _ProductListPageState extends State<ProductListPage> {
         ),
         TextButton(
           onPressed: () {
-            listProduct.sort(
-              (a, b) => b.price!.toDouble().compareTo(a.price!.toDouble()),
-            );
+            listProduct = [...productProvider.list];
+            setState(() {
+              listProduct.sort(
+                (a, b) => b.price!.toDouble().compareTo(a.price!.toDouble()),
+              );
+            });
           },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Colors.blue),
@@ -194,14 +207,14 @@ class _ProductListPageState extends State<ProductListPage> {
         ),
         TextButton(
           onPressed: () {
-            productProvider.list.retainWhere((element) => (element.category!
-                    .toLowerCase()
-                    .contains(_searchKey.text.toLowerCase()) ||
-                element.title!
-                    .toLowerCase()
-                    .contains(_searchKey.text.toLowerCase())));
+            listProduct = [...productProvider.list];
             setState(() {
-              listProduct = productProvider.list;
+              listProduct.retainWhere((element) => (element.category!
+                      .toLowerCase()
+                      .contains(_searchKey.text.toLowerCase()) ||
+                  element.title!
+                      .toLowerCase()
+                      .contains(_searchKey.text.toLowerCase())));
             });
           },
           style: ButtonStyle(
@@ -231,12 +244,15 @@ class _ProductListPageState extends State<ProductListPage> {
           },
           icon: Icon(Icons.shopping_cart),
         ),
+        Text(
+          '${numberCar}',
+          style: TextStyle(color: Colors.red, fontWeight: FontWeight.w600),
+        ),
       ],
     );
   }
 
   buildList(BuildContext context, ProductProvider productProvider) {
-    print(listProduct);
     return Expanded(
       child: ListView(
         scrollDirection: Axis.vertical,
@@ -249,6 +265,7 @@ class _ProductListPageState extends State<ProductListPage> {
                   MaterialPageRoute(
                     builder: ((context) => (ProductDetail(
                           product: e,
+                          numberCar: numberCar,
                         ))),
                   ),
                 );
@@ -301,13 +318,16 @@ class _ProductListPageState extends State<ProductListPage> {
                       TextButton(
                         onPressed: () {
                           productProvider.getListCart(e);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: ((context) => (CartStore(
-                                  listCart: productProvider.listCart))),
-                            ),
-                          );
+                          setState(() {
+                            numberCar = productProvider.listCart.length;
+                          });
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: ((context) => (CartStore(
+                          //         listCart: productProvider.listCart))),
+                          //   ),
+                          // );
                         },
                         style: ButtonStyle(
                           backgroundColor:
@@ -348,6 +368,7 @@ class _ProductListPageState extends State<ProductListPage> {
                   MaterialPageRoute(
                     builder: ((context) => (ProductDetail(
                           product: e,
+                          numberCar: numberCar,
                         ))),
                   ),
                 );
@@ -397,13 +418,16 @@ class _ProductListPageState extends State<ProductListPage> {
                       TextButton(
                         onPressed: () {
                           productProvider.getListCart(e);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: ((context) => (CartStore(
-                                  listCart: productProvider.listCart))),
-                            ),
-                          );
+                          setState(() {
+                            numberCar = productProvider.listCart.length;
+                          });
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: ((context) => (CartStore(
+                          //         listCart: productProvider.listCart))),
+                          //   ),
+                          // );
                         },
                         style: ButtonStyle(
                           backgroundColor:

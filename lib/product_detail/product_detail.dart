@@ -6,7 +6,9 @@ import 'package:provider/provider.dart';
 
 class ProductDetail extends StatelessWidget {
   final ProductModel product;
-  const ProductDetail({super.key, required this.product});
+  final int numberCar;
+  const ProductDetail(
+      {super.key, required this.product, required this.numberCar});
 
   @override
   Widget build(BuildContext context) {
